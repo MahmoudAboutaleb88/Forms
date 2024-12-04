@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إرسال بيانات إلى Google Forms</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        header {
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-size: 18px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            header {
+                padding: 10px 0;
+            }
+            .container {
+                width: 90%;
+                margin-top: 10px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>إرسال البيانات إلى Google Forms</h1>
+    </header>
+
+    <div class="container">
+        <form id="myForm">
+            <label for="q1">السؤال 1:</label>
+            <input type="text" id="q1" name="entry.1384564143" required>
+
+            <label for="q2">السؤال 2:</label>
+            <input type="text" id="q2" name="entry.381637839" required>
+
+            <label for="q3">السؤال 3:</label>
+            <input type="text" id="q3" name="entry.505871858" required>
+
+            <label for="q4">السؤال 4:</label>
+            <input type="text" id="q4" name="entry.1028496279" required>
+
+            <label for="q5">السؤال 5:</label>
+            <input type="text" id="q5" name="entry.984689613" required>
+
+            <button type="submit">إرسال</button>
+        </form>
+
+        <div id="successMessage" class="success-message" style="display:none;">تم إرسال البيانات بنجاح!</div>
+        <div id="errorMessage" class="error-message" style="display:none;">حدث خطأ أثناء إرسال البيانات. حاول مرة أخرى.</div>
+    </div>
+
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function(e) {
+            e.preventDefault();  // لمنع إعادة تحميل الصفحة
+
+            // جمع البيانات من النموذج
+            var formData = new FormData(this);
+
+            // إرسال البيانات باستخدام fetch
+            fetch('https://docs.google.com/forms/d/e/1FAIpQLSff0rdjnSICQIPbpHq-ImfwiLYK_tJ-FA4fJjg0kkqR8I3Gbg/formResponse', {
+                method: 'POST',
+                body: formData
+            })
+            .then(() => {
+                // إظهار رسالة النجاح بغض النظر عن الاستجابة
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'none';
+            })
+            .catch(error => {
+                // إظهار رسالة الخطأ في حال حدوث مشكلة
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+            });
+        });
+    </script>
+
+</body>
+</html>
